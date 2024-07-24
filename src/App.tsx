@@ -1,10 +1,18 @@
-import { Button } from "./components/ui/button";
+//Components
+import {
+  CountDown,
+  Header,
+  Presentation,
+  SubscribeButton,
+} from "./components/";
 
 const App = () => {
   return (
-    <main>
-      <h1 className="text-xl text-red-300">HADOUKEN</h1>
-      <Button>Click me</Button>
+    <main className="bg-background-1 w-screen min-h-screen pb-5">
+      <Header />
+      <Presentation />
+      <CountDown />
+      <SubscribeButton />
     </main>
   );
 };
