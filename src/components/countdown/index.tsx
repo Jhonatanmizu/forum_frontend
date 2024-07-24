@@ -65,6 +65,10 @@ export default function CountDown() {
 
   return (
     <div className="flex flex-row mt-5 gap-3 md:gap-5 justify-center text-center text-text">
+      <div
+        className="absolute self-center bg-primary/45 w-[425px] h-[425px] md:w-[700px] md:h-[700px]
+                   rounded-full blur-[400px] overflow-hidden"
+      />
       {ended ? (
         <div
           className="flex w-[210px] h-[70px] md:h-[120px] bg-background-2

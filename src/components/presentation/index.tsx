@@ -4,11 +4,11 @@ import PresentationSubtitle from "./subtitle";
 
 const Presentation = () => {
   return (
-    <>
+    <div>
       <PresentationTitle />
       <PresentationSchedules />
       <PresentationSubtitle />
-    </>
+    </div>
   );
 };
 

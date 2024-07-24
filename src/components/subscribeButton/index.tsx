@@ -26,7 +26,7 @@ const SubscribeButton = () => {
               w-[222px] h-[58px] text-lg
               md:w-[287px] md:h-[65px] md:text-3lg
               shadow-[0px_0px_16px_5px_#0837DE]
-              hover:scale-105 transition-all`
+              hover:scale-105 transition-all z-50`
             )}
           >
             quero me inscrever

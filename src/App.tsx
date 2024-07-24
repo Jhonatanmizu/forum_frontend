@@ -13,6 +13,7 @@ const App = () => {
       <Presentation />
       <CountDown />
       <SubscribeButton />
+      <div className="w-screen h-96"></div>
     </main>
   );
 };
