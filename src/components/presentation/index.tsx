@@ -4,7 +4,7 @@ import PresentationSubtitle from "./subtitle";
 
 const Presentation = () => {
   return (
-    <div>
+    <div className="flex flex-col max-w-full">
       <PresentationTitle />
       <PresentationSchedules />
       <PresentationSubtitle />

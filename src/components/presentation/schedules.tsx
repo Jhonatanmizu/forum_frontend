@@ -3,21 +3,24 @@ import BlueRobot from "../../assets/images/blue-robot.png";
 
 const PresentationSchedules = () => {
   return (
-    <div className="flex flex-row text-center justify-center items-center text-white mt-5">
+    <div className="flex flex-row max-w-full text-center justify-center items-center text-white mt-5 overflow-hidden">
       <div
-        className="absolute z-10 bg-primary/25 w-[425px] h-[425px]
+        className="absolute z-10 bg-primary/25
+                      w-[425px] h-[425px]
                       md:w-[700px] md:h-[700px]
-                      top-20 right-[50%]
-                      rounded-full blur-[400px] overflow-hidden"
+                      top-20 right-1/2 transform -translate-x-1/2
+                      rounded-full blur-[400px]"
       />
       <div
         className="absolute z-10 bg-secondary/25
-                      w-[425px] h-[425px] md:w-[700px] md:h-[700px]
-                      rounded-full blur-[400px] left-[50%] overflow-hidden"
+                      w-[425px] h-[425px]
+                      md:w-[700px] md:h-[700px]
+                      rounded-full blur-[400px]
+                      right-1 transform -translate-x-1/4"
       />
 
-      <div className="text-center w-screen h-fit absolute top-36 font-extrabold text-white/5 blur-[5px]">
-        <p className="text-[88px] md:text-[260px]">FUTURO</p>
+      <div className="text-center h-fit absolute top-36 font-extrabold text-white/5 blur-[5px] overflow-hidden">
+        <p className="text-[88px] md:text-[280px]">FUTURO</p>
       </div>
 
       <div className="flex flex-col">

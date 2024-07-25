@@ -8,12 +8,12 @@ import {
 
 const App = () => {
   return (
-    <main className="bg-background-1 w-screen min-h-screen pb-5">
+    <main className="bg-background-1 max-w-screen min-h-screen h-fit pb-5">
       <Header />
       <Presentation />
       <CountDown />
       <SubscribeButton />
-      <div className="w-screen h-96"></div>
+      <div className="max-w-full h-44" />
     </main>
   );
 };
