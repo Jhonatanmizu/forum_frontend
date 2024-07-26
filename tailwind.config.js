@@ -42,6 +42,8 @@ module.exports = {
           2: "#293148", //Contrast type1 for Default
           3: "#28304A", //Contrast type2 for Default (border)
         },
+        card: "#d1d1d1",
+        stroke: "#696B74",
       },
       keyframes: {
         "accordion-down": {
