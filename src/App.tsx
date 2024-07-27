@@ -5,6 +5,7 @@ import {
   Presentation,
   SubscribeButton,
   SpeakersCarousel,
+  FullMiniCoursesCards,
 } from "./components/";
 
 const App = () => {
@@ -15,6 +16,7 @@ const App = () => {
       <CountDown />
       <SubscribeButton />
       <SpeakersCarousel />
+      <FullMiniCoursesCards />
     </main>
   );
 };
