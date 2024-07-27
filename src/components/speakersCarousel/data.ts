@@ -55,16 +55,6 @@ const lectures: Lecture[] = [
     office: "Mestre em Ciência da Informação",
     link: "https://www.afonsomadeira.com/",
   },
-  {
-    time: "14:00",
-    title: "Oficina: criando um sistema especialista",
-    speaker: "Leandro dos Santos Gonzales",
-    note: "Expert Sinta",
-    photo:
-      "http://servicosweb.cnpq.br/wspessoa/servletrecuperafoto?tipo=1&id=K4139994U5",
-    office: "Mestre em Modelagem Computacional",
-    link: "http://lattes.cnpq.br/6420007492714660",
-  },
 ];
 
 export default lectures;
