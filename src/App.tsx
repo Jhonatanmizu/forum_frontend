@@ -8,11 +8,12 @@ import {
   FullMiniCoursesCards,
   CompleteTimeLine,
   About,
+  Footer,
 } from "./components/";
 
 const App = () => {
   return (
-    <main className="flex flex-col bg-background-1 max-w-screen min-h-screen h-fit pb-5">
+    <main className="flex flex-col bg-background-1 max-w-screen min-h-screen h-fit">
       <Header />
       <Presentation />
       <CountDown />
@@ -22,6 +23,7 @@ const App = () => {
       <CompleteTimeLine />
       <SubscribeButton />
       <About />
+      <Footer />
     </main>
   );
 };
