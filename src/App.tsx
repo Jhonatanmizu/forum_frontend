@@ -7,6 +7,7 @@ import {
   SpeakersCarousel,
   FullMiniCoursesCards,
   CompleteTimeLine,
+  About,
 } from "./components/";
 
 const App = () => {
@@ -20,6 +21,7 @@ const App = () => {
       <FullMiniCoursesCards />
       <CompleteTimeLine />
       <SubscribeButton />
+      <About />
     </main>
   );
 };
