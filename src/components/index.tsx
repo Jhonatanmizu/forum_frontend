@@ -7,6 +7,7 @@ import SpeakersCarousel from "./speakersCarousel";
 import FullMiniCoursesCards from "./miniCourses";
 import CompleteTimeLine from "./timeline";
 import About from "./about";
+import Footer from "./footer";
 
 export {
   Header,
@@ -18,4 +19,5 @@ export {
   FullMiniCoursesCards,
   CompleteTimeLine,
   About,
+  Footer,
 };
