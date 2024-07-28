@@ -6,6 +6,7 @@ import SubscribeButton from "./subscribeButton";
 import SpeakersCarousel from "./speakersCarousel";
 import FullMiniCoursesCards from "./miniCourses";
 import CompleteTimeLine from "./timeline";
+import About from "./about";
 
 export {
   Header,
@@ -16,4 +17,5 @@ export {
   SpeakersCarousel,
   FullMiniCoursesCards,
   CompleteTimeLine,
+  About,
 };
