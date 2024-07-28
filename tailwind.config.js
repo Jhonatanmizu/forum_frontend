@@ -37,6 +37,7 @@ module.exports = {
         text: "#F9F9F9",
         primary: "#0837DE",
         secondary: "#089EDE",
+        tertiary: "#00092B",
         background: {
           1: "#0D0D0D", //Default Color
           2: "#293148", //Contrast type1 for Default
