@@ -6,6 +6,7 @@ import {
   SubscribeButton,
   SpeakersCarousel,
   FullMiniCoursesCards,
+  CompleteTimeLine,
 } from "./components/";
 
 const App = () => {
@@ -17,6 +18,8 @@ const App = () => {
       <SubscribeButton />
       <SpeakersCarousel />
       <FullMiniCoursesCards />
+      <CompleteTimeLine />
+      <SubscribeButton />
     </main>
   );
 };
