@@ -14,7 +14,7 @@ import lectures from "./data";
 
 const SpeakersCarousel = () => {
   return (
-    <div className="flex flex-col text-center pt-20">
+    <div className="flex flex-col max-w-full text-center pt-20">
       <p className="text-text text-2lg md:text-xl">nossos palestrantes</p>
       <Carousel
         plugins={[
@@ -40,8 +40,8 @@ const SpeakersCarousel = () => {
             );
           })}
         </CarouselContent>
-        <CarouselPrevious className="invisible md:visible" />
-        <CarouselNext className="invisible md:visible" />
+        <CarouselPrevious className="hidden md:flex" />
+        <CarouselNext className="hidden md:flex" />
       </Carousel>
     </div>
   );
