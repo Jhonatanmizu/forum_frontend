@@ -4,8 +4,7 @@ const PresentationTitle = () => {
       <h2 className="text-text text-sm md:text-lg">IX FÓRUM DE TECNOLOGIA</h2>
       <h1
         className="text-transparent bg-gradient-to-b from-background-2 to-text bg-clip-text
-                   font-extrabold text-xl
-                   md:text-4xl"
+                   font-extrabold text-xl md:text-4xl"
       >
         INTELIGÊNCIA ARTIFICIAL
       </h1>

@@ -1,3 +1,10 @@
+//Images
+import Afonso from "../../assets/images/lectures/afonso.jpeg";
+import Elder from "../../assets/images/lectures/elder.jpeg";
+import Pedro from "../../assets/images/lectures/pedro.jpeg";
+import Thiago from "../../assets/images/lectures/thiago.jpeg";
+import Rios from "../../assets/images/lectures/rios.jpeg";
+
 interface Lecture {
   time: string;
   title: string;
@@ -11,47 +18,46 @@ interface Lecture {
 const lectures: Lecture[] = [
   {
     time: "08:30 - 09:30",
-    title: "Uso da IA na Medicina Hospitalar",
+    title: "Uso da IA na medicina hospitalar",
     speaker: "Elder Pimenta",
-    photo:
-      "https://media.licdn.com/dms/image/C4E03AQEQJJuOCzSrlQ/profile-displayphoto-shrink_200_200/0/1628109964524?e=1727308800&v=beta&t=uMf_3XZ3zgWoHcCicE82m5z9FaWlKijApNyo1ZiGH-o",
-    office: "Gerente de Produtos Digitais em Hospitais e Oncologia na DASA",
+    photo: Elder,
+    office:
+      "Mestre em Sistemas e Computação com foco em Inteligência Artificial.",
     link: "https://www.linkedin.com/in/elderpimenta/",
   },
   {
     time: "09:00 - 10:30",
-    title: "Palestra Magna: INTELIGÊNCIA ARTIFICIAL: O FUTURO É AGORA",
+    title: "Palestra Magna: Inteligência Artificial : O Futuro é Agora",
     speaker: "Ricardo Araújo Rios",
-    photo:
-      "http://servicosweb.cnpq.br/wspessoa/servletrecuperafoto?tipo=1&id=K4237121D1",
-    office: "Doutor em Ciências da Computação e Matemática Computacional.",
+    photo: Rios,
+    office:
+      "Pós-Doutorado em Ciências da Computação e Matemática Computacional.",
     link: "http://lattes.cnpq.br/0427387583450747",
   },
   {
     time: "09:30 - 10:30",
     title: "IA na Educação",
     speaker: "Pedro Kislansky",
-    photo:
-      "http://servicosweb.cnpq.br/wspessoa/servletrecuperafoto?tipo=1&id=K4204374T6",
+    photo: Pedro,
     office: "Especialista em Especialização para tecnologias WEB.",
     link: "http://lattes.cnpq.br/5361102001763670",
   },
   {
     time: "11:00 - 12:00",
     title:
-      "Como a IA está transformando o atendimento e otimizando a experiência do cliente",
+      "Como a inteligência artificial está transformando o atendimento e otimizando a experiência do cliente",
     speaker: "Thiago Reis de Souza",
-    photo: "",
-    office: "CARGO DE TESTE",
+    photo: Thiago,
+    office: "Especialização em inteligência artificial",
     link: "",
   },
   {
     time: "11:00 - 12:00",
-    title: "Inteligência Artificial, mitos, desafios e tendências",
+    title:
+      "Inteligência Artificial, educação e o futuro do trabalho: crise ou oportunidade?",
     speaker: "Afonso Celso Magalhães Madeira",
     note: "Indicação Professor Leandro UNEB",
-    photo:
-      "http://servicosweb.cnpq.br/wspessoa/servletrecuperafoto?tipo=1&id=K4537605D8",
+    photo: Afonso,
     office: "Mestre em Ciência da Informação",
     link: "https://www.afonsomadeira.com/",
   },

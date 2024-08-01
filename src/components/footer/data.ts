@@ -15,18 +15,6 @@ const sponsorships: Sponsorship[] = [
   {
     title: "",
     subtitle: "",
-    photo: Da,
-    alt: "logo do departamento acadêmico",
-  },
-  {
-    title: "",
-    subtitle: "",
-    photo: Dcet,
-    alt: "logo do departamento de ciências exatas e da terra",
-  },
-  {
-    title: "",
-    subtitle: "",
     photo: Event,
     alt: "logo do evento o futuro é agora",
   },
@@ -35,6 +23,18 @@ const sponsorships: Sponsorship[] = [
     subtitle: "Empresa Junior",
     photo: TecnoSystem,
     alt: "logo da empresa júnior tecnosystem",
+  },
+  {
+    title: "",
+    subtitle: "",
+    photo: Da,
+    alt: "logo do departamento acadêmico",
+  },
+  {
+    title: "",
+    subtitle: "",
+    photo: Dcet,
+    alt: "logo do departamento de ciências exatas e da terra",
   },
   {
     title: "",

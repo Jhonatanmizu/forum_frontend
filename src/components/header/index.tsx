@@ -4,11 +4,14 @@ import { cn } from "../../lib/utils";
 
 //Icons
 import LocationOnIcon from "@mui/icons-material/LocationOn";
+import InstagramIcon from "@mui/icons-material/Instagram";
 
 const Header = () => {
   const googleMapsLink = `https://maps.app.goo.gl/GeWLNUp8tQVsGHoUA`;
-  const RedirectPage = () => {
-    window.open(googleMapsLink, "_blank");
+  const instagramLink = `https://www.instagram.com/forumdetecnologia/`;
+
+  const RedirectPage = (link: string) => {
+    window.open(link, "_blank");
   };
 
   return (
@@ -16,23 +19,24 @@ const Header = () => {
       <Button
         variant="outline"
         className={cn(
-          `border-secondary text-secondary bg-transparent rounded-full font-normal
+          `border-secondary text-secondary bg-transparent rounded-full font-normal gap-2
           w-[146px] h-[30px] text-xs
           md:w-[227px] md:h-[38px] md:text-lg`
         )}
-        onClick={() => RedirectPage()}
+        onClick={() => RedirectPage(googleMapsLink)}
       >
         <LocationOnIcon /> UNEB - Campus II
       </Button>
       <Button
         variant="outline"
         className={cn(
-          `border-white text-white bg-transparent rounded-full font-normal
+          `border-white text-white bg-transparent rounded-full font-normal gap-2
           w-[146px] h-[30px] text-xs
           md:w-[227px] md:h-[38px] md:text-lg`
         )}
+        onClick={() => RedirectPage(instagramLink)}
       >
-        cronograma do fórum
+        <InstagramIcon /> Instagram
       </Button>
     </div>
   );

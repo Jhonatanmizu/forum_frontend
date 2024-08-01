@@ -15,7 +15,7 @@ import lectures from "./data";
 const SpeakersCarousel = () => {
   return (
     <div className="flex flex-col text-center pt-20">
-      <p className="text-text text-2lg md:text-xl">nossos palestrantes</p>
+      <p className="text-text text-2lg md:text-xl">Palestrantes</p>
       <Carousel
         plugins={[
           Autoplay({
