@@ -6,7 +6,7 @@ import { cn } from "../../lib/utils";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
 import InstagramIcon from "@mui/icons-material/Instagram";
 
-const Header = ({ scrollToSection }: { scrollToSection: () => void }) => {
+const Header = () => {
   const googleMapsLink = `https://maps.app.goo.gl/GeWLNUp8tQVsGHoUA`;
   const instagramLink = `https://www.instagram.com/forumdetecnologia/`;
 
