@@ -1,6 +1,6 @@
 const PresentationSubtitle = () => {
   return (
-    <div className="flex flex-col text-center text-white">
+    <div className="flex flex-col text-center max-w-full text-white">
       <p className="text-lg md:text-xl">CONTAGEM REGRESSIVA PARA VOCÊ SABER</p>
       <p className="text-lg md:text-xl">
         COMO{" "}

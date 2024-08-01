@@ -1,3 +1,5 @@
+import { useRef } from "react";
+
 //Components
 import {
   CountDown,
@@ -12,15 +14,23 @@ import {
 } from "./components/";
 
 const App = () => {
+  const sectionRef = useRef<HTMLDivElement>(null);
+
+  const scrollToSection = () => {
+    if (sectionRef.current) {
+      sectionRef.current.scrollIntoView({ behavior: "smooth" });
+    }
+  };
+
   return (
     <main className="flex flex-col bg-background-1 max-w-screen min-h-screen h-fit">
-      <Header />
+      <Header scrollToSection={scrollToSection} />
       <Presentation />
       <CountDown />
       <SubscribeButton />
       <SpeakersCarousel />
       <FullMiniCoursesCards />
-      <CompleteTimeLine />
+      <CompleteTimeLine sectionRef={sectionRef} />
       <SubscribeButton />
       <About />
       <Footer />

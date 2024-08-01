@@ -22,7 +22,7 @@ const About = () => {
   };
 
   return (
-    <div className="flex flex-col items-center mt-16 md:max-w-[1400px] self-center">
+    <div className="flex flex-col items-center mt-16 md:max-w-[1400px] max-w-full self-center">
       <p className="flex text-text text-2lg md:text-xl mb-6 text-center md:w-[95%] md:text-start">
         Nossa universidade
       </p>
@@ -32,7 +32,7 @@ const About = () => {
           <img
             src={UnebImage}
             alt="ilustração sobra a uneb"
-            className="h-[245px] md:h-[392px] md:ml-32 mb-8 visible md:hidden"
+            className="h-[245px] md:h-[392px] md:ml-32 mb-8 flex md:hidden"
           />
           <Button
             variant="outline"

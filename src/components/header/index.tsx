@@ -6,7 +6,7 @@ import { cn } from "../../lib/utils";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
 import InstagramIcon from "@mui/icons-material/Instagram";
 
-const Header = () => {
+const Header = ({ scrollToSection }: { scrollToSection: () => void }) => {
   const googleMapsLink = `https://maps.app.goo.gl/GeWLNUp8tQVsGHoUA`;
   const instagramLink = `https://www.instagram.com/forumdetecnologia/`;
 
@@ -15,7 +15,7 @@ const Header = () => {
   };
 
   return (
-    <div className="flex flex-row justify-around pt-5">
+    <div className="flex flex-row max-w-full justify-around pt-5">
       <Button
         variant="outline"
         className={cn(

@@ -40,8 +40,8 @@ const SpeakersCarousel = () => {
             );
           })}
         </CarouselContent>
-        <CarouselPrevious className="invisible md:visible" />
-        <CarouselNext className="invisible md:visible" />
+        <CarouselPrevious className="hidden md:flex" />
+        <CarouselNext className="hidden md:flex" />
       </Carousel>
     </div>
   );

@@ -33,24 +33,44 @@ const SubscribeButton = () => {
           </Button>
         </AlertDialogTrigger>
         <AlertDialogContent
-          className="flex flex-col p-10 bg-background-1 shadow-[0px_0px_5px_1px_#ffffff]
-                     w-[330px] md:w-[770px] border-none
-                    text-white"
+          className={cn(
+            `flex flex-col p-5 md:p-10 bg-background-1 shadow-[0px_0px_5px_1px_#ffffff]
+              w-[330px] md:w-[770px] max-w-full border-none
+            text-white`
+          )}
         >
           <AlertDialogHeader>
-            <AlertDialogTitle>Faça usa inscrição</AlertDialogTitle>
+            <AlertDialogTitle className="text-2lg">
+              Faça usa inscrição
+            </AlertDialogTitle>
             <AlertDialogDescription className="flex flex-col gap-3">
-              <Input type="text" placeholder="nome completo" />
-              <Input type="number" placeholder="cpf" />
-              <Input type="text" placeholder="data de nascimento" />
-              <Input type="email" placeholder="email" />
+              <Input
+                type="text"
+                placeholder="nome completo"
+                className={cn(`text-lg`)}
+              />
+              <Input
+                type="number"
+                placeholder="cpf"
+                className={cn(`text-lg`)}
+              />
+              <Input
+                type="text"
+                placeholder="data de nascimento"
+                className={cn(`text-lg`)}
+              />
+              <Input
+                type="email"
+                placeholder="email"
+                className={cn(`text-lg`)}
+              />
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
-            <AlertDialogCancel className="text-black">
+            <AlertDialogCancel className="text-black text-lg">
               Cancelar
             </AlertDialogCancel>
-            <AlertDialogAction className="bg-primary shadow-[0px_0px_16px_5px_#0837DE]">
+            <AlertDialogAction className="bg-primary shadow-[0px_0px_16px_5px_#0837DE] text-lg">
               Pronto
             </AlertDialogAction>
           </AlertDialogFooter>

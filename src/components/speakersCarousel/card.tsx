@@ -25,8 +25,8 @@ const SpeakerCard = ({ counter, lecture }: Props) => {
             rounded-2xl shadow-lg"
     >
       <div
-        className="rounded-xl bg-white
-                    w-[100px] h-[120px] md:w-[190px] md:h-[173px] flex justify-center"
+        className="rounded-xl bg-transparent
+                    w-[100px] h-[120px] md:w-[190px] md:h-[173px] flex justify-center mt-5 mb-5"
       >
         {photo && (
           <img src={photo} alt={speaker} className="w-full h-full rounded-xl" />

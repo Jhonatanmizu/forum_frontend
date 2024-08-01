@@ -1,6 +1,6 @@
 const PresentationTitle = () => {
   return (
-    <div className="flex flex-col items-center pt-10">
+    <div className="flex flex-col items-center pt-10 max-w-full">
       <h2 className="text-text text-sm md:text-lg">IX FÓRUM DE TECNOLOGIA</h2>
       <h1
         className="text-transparent bg-gradient-to-b from-background-2 to-text bg-clip-text
