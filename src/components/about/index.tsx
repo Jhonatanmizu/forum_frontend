@@ -11,7 +11,7 @@ import LocationOnIcon from "@mui/icons-material/LocationOn";
 const About = () => {
   const AboutUneb = `O campus II da UNEB em Alagoinhas é um importante centro educacional, oferecendo cursos variados e contribuindo para o desenvolvimento regional.
     O curso de Sistemas de Informação destaca-se por sua formação abrangente em tecnologia da informação. Nos dias 29 e 30 de agosto de 2024, o campus sediará o
-    "IX Fórum de Tecnologia: O Futuro é Agora", focado em inteligência artificial, com palestras e minicursos de pesquisadores, visando disseminar conhecimento e
+    "IX Fórum de Tecnologia: O Futuro é Agora", focado em inteligência artificial, com palestras, minicurso e oficina de pesquisadores, visando disseminar conhecimento e
     envolver a comunidade local.`;
 
   const unebLink = `https://www.dcet2.uneb.br/`;
@@ -24,7 +24,7 @@ const About = () => {
   return (
     <div className="flex flex-col items-center mt-16 md:max-w-[1400px] max-w-full self-center">
       <p className="flex text-text text-2lg md:text-xl mb-6 text-center md:w-[95%] md:text-start">
-        nossa universidade
+        Nossa universidade
       </p>
       <div className="flex flex-col md:flex-row w-[95%]">
         <div className="flex flex-col items-center md:items-start">
@@ -39,7 +39,7 @@ const About = () => {
             className={cn(
               `border-secondary text-secondary bg-transparent rounded-full font-normal
                 w-[350px] h-[50px] text-md
-                md:w-[432px] md:h-[50px] md:text-lg mb-8`
+                md:w-[432px] md:h-[50px] md:text-lg mb-8 gap-2`
             )}
             onClick={() => RedirectPage(googleMapsLink)}
           >
@@ -55,7 +55,7 @@ const About = () => {
             )}
             onClick={() => RedirectPage(unebLink)}
           >
-            saiba mais
+            Saiba mais
           </Button>
         </div>
         <img

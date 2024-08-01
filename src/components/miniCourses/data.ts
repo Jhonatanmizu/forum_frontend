@@ -1,5 +1,6 @@
 //Images
-import Elder from "../../assets/images/speakers/elder.jpeg";
+import Elder from "../../assets/images/lectures/elder.jpeg";
+import Leandro from "../../assets/images/lectures/leandro.jpeg";
 
 interface MiniCourse {
   type: string;
@@ -18,9 +19,8 @@ const miniCourses: MiniCourse[] = [
   {
     type: "Oficina",
     speaker: "Leandro dos Santos Gonzales",
-    title: "Expert Sinta: criando um sistema especialista",
-    photo:
-      "http://servicosweb.cnpq.br/wspessoa/servletrecuperafoto?tipo=1&id=K4139994U5",
+    title: "Expert Sinta: criando um SISTEMA ESPECIALISTA",
+    photo: Leandro,
   },
 ];
 

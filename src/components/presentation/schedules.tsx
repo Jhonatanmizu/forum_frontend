@@ -29,7 +29,7 @@ const PresentationSchedules = () => {
         <p className="text-2xl md:text-[120px]">30</p>
         <p className="text-md md:text-xl">agosto</p>
       </div>
-      <img src={BlueRobot} className="relative h-[320px] md:h-[778px]" />
+      <img src={BlueRobot} className="relative h-[300px] md:h-[778px]" />
       <div className="flex flex-col">
         <p className="text-2xl md:text-[120px]">08</p>
         <p className="text-md md:text-xl"> _ _ </p>
