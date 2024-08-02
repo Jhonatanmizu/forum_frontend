@@ -28,7 +28,7 @@ const MiniCourseCard = ({ miniCourse, index }: Props) => {
         src={photo}
         alt={title}
         className="w-[110px] h-[110px] md:w-[134px] md:h-[134px]
-        rounded-lg shadow-[0px_0px_5px_3px_#696B74]"
+        rounded-lg shadow-[0px_0px_5px_3px_#696B74] object-fill"
       />
       <div className="flex flex-col w-[236px] h-[104px] md:w-[335px] md:h-[112px] justify-around">
         <p className="text-secondary text-lg">{type}</p>

@@ -29,7 +29,11 @@ const SpeakerCard = ({ counter, lecture }: Props) => {
                     w-[100px] h-[120px] md:w-[190px] md:h-[173px] flex justify-center mt-5 mb-5"
       >
         {photo && (
-          <img src={photo} alt={speaker} className="w-full h-full rounded-xl" />
+          <img
+            src={photo}
+            alt={speaker}
+            className="w-full h-full rounded-xl object-cover"
+          />
         )}
       </div>
       <div className="flex flex-col gap-2 w-[65%] h-[90%] md:w-[90%] md:h-[50%] text-left">
