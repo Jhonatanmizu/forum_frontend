@@ -3,6 +3,7 @@ import Dcet from "../../assets/images/sponsorships/DCET.png";
 import Event from "../../assets/images/sponsorships/event.svg";
 import TecnoSystem from "../../assets/images/sponsorships/tecnoSystem.png";
 import Uneb from "../../assets/images/sponsorships/uneb.png";
+import ArenaGames from "../../assets/images/sponsorships/arenaGames.png";
 
 interface Sponsorship {
   title?: string;
@@ -15,6 +16,12 @@ const sponsorships: Sponsorship[] = [
   {
     title: "",
     subtitle: "",
+    photo: ArenaGames,
+    alt: "logo da arena games Bahia",
+  },
+  {
+    title: "",
+    subtitle: "",
     photo: Event,
     alt: "logo do evento o futuro é agora",
   },
@@ -22,7 +29,7 @@ const sponsorships: Sponsorship[] = [
     title: "TecnoSystem",
     subtitle: "Empresa Junior",
     photo: TecnoSystem,
-    alt: "logo da empresa júnior tecnosystem",
+    alt: "logo da empresa júnior TecnoSystem",
   },
   {
     title: "",
@@ -40,8 +47,9 @@ const sponsorships: Sponsorship[] = [
     title: "",
     subtitle: "",
     photo: Uneb,
-    alt: "logo da universidade do estado da bahia",
+    alt: "logo da universidade do estado da Bahia",
   },
 ];
+ArenaGames;
 
 export default sponsorships;
