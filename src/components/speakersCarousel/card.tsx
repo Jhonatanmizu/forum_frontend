@@ -20,13 +20,13 @@ const SpeakerCard = ({ counter, lecture }: Props) => {
     <div
       className="flex flex-row md:flex-col
           bg-card/5 justify-around md:justify-evenly items-center
-            w-[100%] h-[180px] md:w-[250px] md:h-[387px]
+            w-[95%] h-[200px] md:w-[260px] md:h-[387px]
             ring-1 ring-stroke
             rounded-2xl shadow-lg"
     >
       <div
         className="rounded-xl bg-transparent
-                    w-[100px] h-[120px] md:w-[190px] md:h-[173px] flex justify-center mt-5 mb-5"
+                    w-[125px] h-[125px] md:w-[190px] md:h-[173px] flex justify-center mt-4 mb-4"
       >
         {photo && (
           <img
@@ -36,7 +36,7 @@ const SpeakerCard = ({ counter, lecture }: Props) => {
           />
         )}
       </div>
-      <div className="flex flex-col gap-2 w-[65%] h-[90%] md:w-[90%] md:h-[50%] text-left">
+      <div className="flex flex-col gap-2 w-[60%] h-fit md:w-[95%] md:h-[45%] text-left">
         <p className="text-text font-extrabold text-lg">{speaker}</p>
         <p className="text-text/75 text-md">{office}</p>
         <p className="text-text font-extrabold text-lg">
