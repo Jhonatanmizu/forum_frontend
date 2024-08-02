@@ -36,7 +36,7 @@ const lectures: Lecture[] = [
   },
   {
     time: "09:30 - 10:30",
-    title: "IA na Educação",
+    title: "IA, mitos, desafios e tendências",
     speaker: "Pedro Kislansky",
     photo: Pedro,
     office: "Especialista em Especialização para tecnologias WEB.",
@@ -55,7 +55,7 @@ const lectures: Lecture[] = [
     time: "11:00 - 12:00",
     title:
       "Inteligência Artificial, educação e o futuro do trabalho: crise ou oportunidade?",
-    speaker: "Afonso Celso Magalhães Madeira",
+    speaker: "Afonso Madeira",
     note: "Indicação Professor Leandro UNEB",
     photo: Afonso,
     office: "Mestre em Ciência da Informação",
