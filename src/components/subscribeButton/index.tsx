@@ -12,7 +12,18 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { Input } from "@/components/ui/input";
+//Data
+import { events, lectures } from "./data";
 
 const SubscribeButton = () => {
   return (
@@ -46,24 +57,51 @@ const SubscribeButton = () => {
             <AlertDialogDescription className="flex flex-col gap-3">
               <Input
                 type="text"
-                placeholder="nome completo"
+                placeholder="Nome completo"
                 className={cn(`text-lg`)}
               />
               <Input
                 type="number"
-                placeholder="cpf"
+                placeholder="CPF"
                 className={cn(`text-lg`)}
               />
               <Input
                 type="text"
-                placeholder="data de nascimento"
+                placeholder="Data de nascimento"
                 className={cn(`text-lg`)}
               />
               <Input
                 type="email"
-                placeholder="email"
+                placeholder="Email"
                 className={cn(`text-lg`)}
               />
+              <Select>
+                <SelectTrigger className={cn(`text-lg`)}>
+                  <SelectValue placeholder="Selecione o evento desejado" />
+                </SelectTrigger>
+                <SelectContent className={cn(`text-lg`)}>
+                  <SelectGroup>
+                    <SelectLabel>Eventos</SelectLabel>
+                    {events.map((event) => {
+                      return (
+                        <SelectItem value={event.title}>
+                          {event.title}
+                        </SelectItem>
+                      );
+                    })}
+                  </SelectGroup>
+                  <SelectGroup>
+                    <SelectLabel>Palestras</SelectLabel>
+                    {lectures.map((lecture) => {
+                      return (
+                        <SelectItem value={lecture.title}>
+                          {lecture.title}
+                        </SelectItem>
+                      );
+                    })}
+                  </SelectGroup>
+                </SelectContent>
+              </Select>
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
