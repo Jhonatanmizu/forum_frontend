@@ -70,7 +70,11 @@ export default function CountDown() {
   }, [ended, firstDayStart]);
 
   return (
-    <div className="flex flex-row mt-5 justify-center text-center text-text">
+    <div className="flex flex-row mt-5 justify-center text-center text-text relative">
+      <div
+        className="absolute self-center bg-primary md:bg-primary/45 w-full h-[425px] md:h-[700px]
+                   rounded-full blur-[400px]"
+      />
       {ended ? (
         <div
           className="flex w-[210px] h-[70px] md:h-[120px] bg-background-2
