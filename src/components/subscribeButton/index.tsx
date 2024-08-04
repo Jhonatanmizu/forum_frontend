@@ -1,3 +1,4 @@
+"use client";
 import { useState } from "react";
 //Shadcn UI
 import { Button } from "../";
@@ -222,16 +223,18 @@ const SubscribeButton = () => {
                   />
                 </DialogDescription>
               </DialogHeader>
-              <DialogFooter className={cn(`mt-5`)}>
-                <DialogClose className={cn(`text-white text-lg mr-16`)}>
-                  Cancelar
-                </DialogClose>
+              <DialogFooter
+                className={cn(`flex gap-10 items-center md:items-end`)}
+              >
                 <Button
-                  className="bg-primary shadow-[0px_0px_16px_5px_#0837DE] text-lg"
+                  className="bg-primary w-36 h-10 shadow-[0px_0px_16px_5px_#0837DE] text-lg mt-10 order-1 md:order-last"
                   type="submit"
                 >
                   {submitting ? "Enviando dados" : "Pronto"}
                 </Button>
+                <DialogClose className={cn(`text-white text-lg w-20 h-10`)}>
+                  Cancelar
+                </DialogClose>
               </DialogFooter>
             </form>
           </Form>
