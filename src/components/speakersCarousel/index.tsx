@@ -27,12 +27,12 @@ const SpeakersCarousel = () => {
           align: "center",
           loop: true,
         }}
-        className="flex max-w-[100%] md:max-w-[1100px] self-center pt-5"
+        className="flex w-[100%] md:max-w-[1100px] self-center pt-5 overflow-visible space-x-1"
       >
-        <CarouselContent>
+        <CarouselContent className="overflow-visible">
           {lectures.map((item, index) => {
             return (
-              <CarouselItem key={index} className="md:basis-1/4">
+              <CarouselItem key={index} className="basis-5/6 md:basis-1/4">
                 <div className="flex justify-around pt-1 pb-1">
                   <SpeakerCard counter={index + 1} lecture={item} />
                 </div>

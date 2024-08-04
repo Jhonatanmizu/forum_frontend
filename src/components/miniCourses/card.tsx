@@ -18,7 +18,7 @@ const MiniCourseCard = ({ miniCourse, index }: Props) => {
   const flexType = result === 0 && "md:flex-row-reverse";
   const textPosition = result === 0 && "md:text-right";
   const containerStyle = `flex flex-row ${flexType} items-center
-                          w-[370px] h-[110px] md:w-[493px] md:h-[134px]
+                          w-[95%] h-[110px] md:w-[493px] md:h-[134px]
                           gap-5 bg-transparent
                           ${textPosition}`;
 

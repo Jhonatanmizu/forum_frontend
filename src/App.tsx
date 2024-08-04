@@ -29,6 +29,10 @@ const App = () => {
       />
       <Presentation />
       <CountDown />
+      <div
+        className="absolute self-center bg-primary md:bg-primary/45 w-full h-[425px] md:h-[700px]
+                   rounded-full blur-[400px]"
+      />
       <SubscribeButton />
       <SpeakersCarousel />
       <FullMiniCoursesCards />
