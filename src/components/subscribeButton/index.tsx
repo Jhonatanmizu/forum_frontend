@@ -15,16 +15,14 @@ import {
 import {
   Select,
   SelectContent,
-  SelectGroup,
   SelectItem,
-  SelectLabel,
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
 import { Form, FormField, FormItem, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 //Data
-import { events, lectures } from "./data";
+import { events } from "./data";
 //Zod
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
@@ -192,28 +190,11 @@ const SubscribeButton = () => {
                             <SelectValue placeholder="Selecione o evento desejado" />
                           </SelectTrigger>
                           <SelectContent className={cn(`text-lg`)}>
-                            <SelectGroup>
-                              <SelectLabel>Eventos</SelectLabel>
-                              {events.map((event) => (
-                                <SelectItem
-                                  key={event.title}
-                                  value={event.title}
-                                >
-                                  {event.title}
-                                </SelectItem>
-                              ))}
-                            </SelectGroup>
-                            <SelectGroup>
-                              <SelectLabel>Palestras</SelectLabel>
-                              {lectures.map((lecture) => (
-                                <SelectItem
-                                  key={lecture.title}
-                                  value={lecture.title}
-                                >
-                                  {lecture.title}
-                                </SelectItem>
-                              ))}
-                            </SelectGroup>
+                            {events.map((event) => (
+                              <SelectItem key={event.title} value={event.title}>
+                                {event.title}
+                              </SelectItem>
+                            ))}
                           </SelectContent>
                         </Select>
                         <FormMessage />

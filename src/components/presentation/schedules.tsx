@@ -4,8 +4,8 @@ import BlueRobot from "../../assets/images/blue-robot.png";
 const PresentationSchedules = () => {
   return (
     <div className="flex flex-row max-w-full text-center relative justify-center items-center text-white mt-5">
-      <div className="text-center h-fit absolute md:-top-32 -top-10 font-extrabold text-white/5 blur-[5px] overflow-hidden">
-        <p className="text-[84px] md:text-[280px]">FUTURO</p>
+      <div className="text-center max-w-full h-fit absolute md:-top-32 -top-10 font-extrabold text-white/5 blur-[5px] overflow-hidden">
+        <p className="text-[70px] md:text-[270px]">FUTURO</p>
       </div>
 
       <div className="flex flex-col">
