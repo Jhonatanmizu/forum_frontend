@@ -1,13 +1,16 @@
 import { initializeApp } from "firebase/app";
 import { getFirestore } from "firebase/firestore";
+import dotenv from "dotenv";
+
+dotenv.config();
 
 const firebaseConfig = {
-  apiKey: "AIzaSyAUjHrWOs2rCdGzgcpv4jxk2_V0XWCG_sU",
-  authDomain: "forum-de-tec-ix.firebaseapp.com",
-  projectId: "forum-de-tec-ix",
-  storageBucket: "forum-de-tec-ix.appspot.com",
-  messagingSenderId: "921241335649",
-  appId: "1:921241335649:web:8abc05703cf27fecb67720",
+  apiKey: process.env.FIREBASE_API_KEY,
+  authDomain: process.env.FIREBASE_AUTH_DOMAIN,
+  projectId: process.env.FIREBASE_PROJECT_ID,
+  storageBucket: process.env.FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: process.env.FIREBASE_MESSAGING_SENDER_ID,
+  appId: process.env.FIREBASE_APP_ID,
 };
 
 const firebaseApp = initializeApp(firebaseConfig);
