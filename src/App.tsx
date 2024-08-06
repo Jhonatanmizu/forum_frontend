@@ -10,10 +10,12 @@ import {
   About,
   Footer,
 } from "./components/";
+import { Toaster } from "@/components/ui/toaster";
 
 const App = () => {
   return (
     <main className="flex flex-col relative bg-background-1 max-w-screen min-h-screen h-fit">
+      <Toaster />
       <Header />
       <div
         className="absolute bg-secondary/25
