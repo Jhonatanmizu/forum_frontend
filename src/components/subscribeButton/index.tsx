@@ -27,56 +27,32 @@ import { events } from "./data";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
+//Schema
+import { SubscribeSchema } from "./schema";
+//Store
+import useFirebaseStore from "../../stores/firebase";
+//Icons
+import HourglassEmptyIcon from "@mui/icons-material/HourglassEmpty";
 
 const SubscribeButton = () => {
+  const { addNewParticipant } = useFirebaseStore();
   const [submitting, setSubmitting] = useState(false);
 
-  const FormSchema = z.object({
-    fullName: z
-      .string({
-        required_error: "Nome completo é obrigatório",
-      })
-      .nonempty("Por favor, informe seu nome completo."),
-    cpf: z
-      .string({
-        required_error: "CPF é obrigatório",
-      })
-      .regex(/^\d{11}$/, "CPF deve ter exatamente 11 dígitos"),
-    birthDate: z
-      .string({
-        required_error: "A data de nascimento é obrigatória",
-      })
-      .regex(
-        /^\d{2}\/\d{2}\/\d{4}$/,
-        "A data de nascimento deve estar no formato Dia/Mês/Ano"
-      ),
-    email: z
-      .string({
-        required_error: "Email é obrigatório",
-      })
-      .email("Email invalido"),
-    event: z.string({
-      required_error: "Por favor, indique o evento no qual deseja se inscrever",
-    }),
+  const form = useForm<z.infer<typeof SubscribeSchema>>({
+    resolver: zodResolver(SubscribeSchema),
   });
 
-  const form = useForm<z.infer<typeof FormSchema>>({
-    resolver: zodResolver(FormSchema),
-  });
-
-  function onSubmit(data: z.infer<typeof FormSchema>) {
+  const onSubmit = async (data: z.infer<typeof SubscribeSchema>) => {
     setSubmitting(true);
 
     try {
-      setTimeout(() => {
-        console.warn(JSON.stringify(data, null, 2));
-      }, 5000);
+      await addNewParticipant(data);
     } catch (error) {
       console.error(error);
     } finally {
       setSubmitting(false);
     }
-  }
+  };
 
   return (
     <div className="flex flex-row justify-around pt-10 text-2lg md:text-3lg">
@@ -91,9 +67,8 @@ const SubscribeButton = () => {
               shadow-[0px_0px_16px_5px_#0837DE]
               hover:scale-105 transition-all z-50`
             )}
-            disabled
           >
-            INSCRIÇÕES EM BREVE
+            quero me inscrever
           </Button>
         </DialogTrigger>
         <DialogContent
@@ -208,10 +183,17 @@ const SubscribeButton = () => {
                 className={cn(`flex gap-10 items-center md:items-end`)}
               >
                 <Button
-                  className="bg-primary w-36 h-10 shadow-[0px_0px_16px_5px_#0837DE] text-lg mt-10 order-1 md:order-last"
+                  className="bg-primary w-fit pr-5 pl-5 h-10 shadow-[0px_0px_16px_5px_#0837DE] text-lg mt-10 order-1 md:order-last transition-all"
                   type="submit"
                 >
-                  {submitting ? "Enviando dados" : "Pronto"}
+                  {submitting ? (
+                    <div className="flex gap-5">
+                      <HourglassEmptyIcon className="animate-spin" />
+                      <p>Enviando dados ...</p>
+                    </div>
+                  ) : (
+                    "Pronto"
+                  )}
                 </Button>
                 <DialogClose className={cn(`text-white text-lg w-20 h-10`)}>
                   Cancelar
