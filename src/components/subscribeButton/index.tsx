@@ -91,8 +91,9 @@ const SubscribeButton = () => {
               shadow-[0px_0px_16px_5px_#0837DE]
               hover:scale-105 transition-all z-50`
             )}
+            disabled
           >
-            quero me inscrever
+            INSCRIÇÕES EM BREVE
           </Button>
         </DialogTrigger>
         <DialogContent

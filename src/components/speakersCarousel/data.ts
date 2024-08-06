@@ -18,21 +18,21 @@ interface Lecture {
 const lectures: Lecture[] = [
   {
     time: "08:30 - 09:30",
-    title: "Uso da IA na medicina hospitalar",
-    speaker: "Elder Pimenta",
-    photo: Elder,
-    office:
-      "Mestre em Sistemas e Computação com foco em Inteligência Artificial.",
-    link: "https://www.linkedin.com/in/elderpimenta/",
-  },
-  {
-    time: "09:00 - 10:30",
     title: "Palestra Magna: Inteligência Artificial : O Futuro é Agora",
     speaker: "Ricardo Araújo Rios",
     photo: Rios,
     office:
       "Pós-Doutorado em Ciências da Computação e Matemática Computacional.",
     link: "http://lattes.cnpq.br/0427387583450747",
+  },
+  {
+    time: "09:00 - 10:30",
+    title: "Uso da IA na medicina hospitalar",
+    speaker: "Elder Pimenta",
+    photo: Elder,
+    office:
+      "Mestre em Sistemas e Computação com foco em Inteligência Artificial.",
+    link: "https://www.linkedin.com/in/elderpimenta/",
   },
   {
     time: "09:30 - 10:30",
