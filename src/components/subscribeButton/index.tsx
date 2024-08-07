@@ -1,4 +1,3 @@
-import { useState } from "react";
 //Shadcn UI
 import { Button } from "../";
 import { cn } from "../../lib/utils";
@@ -35,23 +34,20 @@ import useFirebaseStore from "../../stores/firebase";
 import HourglassEmptyIcon from "@mui/icons-material/HourglassEmpty";
 
 const SubscribeButton = () => {
-  const { addNewParticipant } = useFirebaseStore();
-  const [submitting, setSubmitting] = useState(false);
+  const {
+    handleFormData,
+    updateParticipant,
+    deleteParticipant,
+    currentUserData,
+    processingSubscribe,
+  } = useFirebaseStore();
 
   const form = useForm<z.infer<typeof SubscribeSchema>>({
     resolver: zodResolver(SubscribeSchema),
   });
 
   const onSubmit = async (data: z.infer<typeof SubscribeSchema>) => {
-    setSubmitting(true);
-
-    try {
-      await addNewParticipant(data);
-    } catch (error) {
-      console.error(error);
-    } finally {
-      setSubmitting(false);
-    }
+    await handleFormData(data);
   };
 
   return (
@@ -78,129 +74,174 @@ const SubscribeButton = () => {
             text-white`
           )}
         >
-          <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)}>
+          {currentUserData ? (
+            <div>
               <DialogHeader>
                 <DialogTitle className="text-2lg">
-                  Faça usa inscrição
+                  Parece que você já está inscrito
                 </DialogTitle>
-                <DialogDescription className="flex flex-col gap-3">
-                  <FormField
-                    control={form.control}
-                    name="fullName"
-                    render={({ field }) => (
-                      <FormItem>
-                        <Input
-                          type="text"
-                          placeholder="Nome completo"
-                          className={cn(`text-lg`)}
-                          onChange={field.onChange}
-                          defaultValue={field.value}
-                        />
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-
-                  <FormField
-                    control={form.control}
-                    name="cpf"
-                    render={({ field }) => (
-                      <FormItem>
-                        <Input
-                          type="number"
-                          placeholder="CPF"
-                          className={cn(`text-lg`)}
-                          onChange={field.onChange}
-                          defaultValue={field.value}
-                        />
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-
-                  <FormField
-                    control={form.control}
-                    name="birthDate"
-                    render={({ field }) => (
-                      <FormItem>
-                        <Input
-                          type="text"
-                          placeholder="Data de nascimento"
-                          className={cn(`text-lg`)}
-                          onChange={field.onChange}
-                          defaultValue={field.value}
-                        />
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-
-                  <FormField
-                    control={form.control}
-                    name="email"
-                    render={({ field }) => (
-                      <FormItem>
-                        <Input
-                          type="email"
-                          placeholder="Email"
-                          className={cn(`text-lg`)}
-                          onChange={field.onChange}
-                          defaultValue={field.value}
-                        />
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-
-                  <FormField
-                    control={form.control}
-                    name="event"
-                    render={({ field }) => (
-                      <FormItem>
-                        <Select
-                          onValueChange={field.onChange}
-                          defaultValue={field.value}
-                        >
-                          <SelectTrigger className={cn(`text-lg`)}>
-                            <SelectValue placeholder="Selecione o evento desejado" />
-                          </SelectTrigger>
-                          <SelectContent className={cn(`text-lg`)}>
-                            {events.map((event) => (
-                              <SelectItem key={event.title} value={event.title}>
-                                {event.title}
-                              </SelectItem>
-                            ))}
-                          </SelectContent>
-                        </Select>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
+                <DialogDescription>
+                  <p className="text-lg">Oque você deseja fazer?</p>
+                  <div className="flex flex-row justify-around">
+                    <Button
+                      className="bg-primary w-fit pr-5 pl-5 h-10 shadow-[0px_0px_16px_5px_#0837DE] text-lg mt-10 order-1 md:order-last transition-all"
+                      onClick={() => updateParticipant()}
+                    >
+                      {processingSubscribe ? (
+                        <div className="flex gap-5">
+                          <HourglassEmptyIcon className="animate-spin" />
+                          <p>Processando ...</p>
+                        </div>
+                      ) : (
+                        "Atualizar minha inscrição!"
+                      )}
+                    </Button>
+                    <Button
+                      className="w-fit pr-5 pl-5 h-10 shadow-[0px_0px_5px_1px_#e73149] text-lg mt-10 order-1 md:order-last transition-all"
+                      onClick={() => deleteParticipant()}
+                    >
+                      {processingSubscribe ? (
+                        <div className="flex gap-5">
+                          <HourglassEmptyIcon className="animate-spin" />
+                          <p>Processando ...</p>
+                        </div>
+                      ) : (
+                        "Cancelar minha inscrição!"
+                      )}
+                    </Button>
+                  </div>
                 </DialogDescription>
               </DialogHeader>
-              <DialogFooter
-                className={cn(`flex gap-10 items-center md:items-end`)}
-              >
-                <Button
-                  className="bg-primary w-fit pr-5 pl-5 h-10 shadow-[0px_0px_16px_5px_#0837DE] text-lg mt-10 order-1 md:order-last transition-all"
-                  type="submit"
+              <DialogFooter></DialogFooter>
+            </div>
+          ) : (
+            <Form {...form}>
+              <form onSubmit={form.handleSubmit(onSubmit)}>
+                <DialogHeader>
+                  <DialogTitle className="text-2lg">
+                    Faça usa inscrição
+                  </DialogTitle>
+                  <DialogDescription className="flex flex-col gap-3">
+                    <FormField
+                      control={form.control}
+                      name="fullName"
+                      render={({ field }) => (
+                        <FormItem>
+                          <Input
+                            type="text"
+                            placeholder="Nome completo"
+                            className={cn(`text-lg`)}
+                            onChange={field.onChange}
+                            defaultValue={field.value}
+                          />
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+
+                    <FormField
+                      control={form.control}
+                      name="cpf"
+                      render={({ field }) => (
+                        <FormItem>
+                          <Input
+                            type="number"
+                            placeholder="CPF"
+                            className={cn(`text-lg`)}
+                            onChange={field.onChange}
+                            defaultValue={field.value}
+                          />
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+
+                    <FormField
+                      control={form.control}
+                      name="birthDate"
+                      render={({ field }) => (
+                        <FormItem>
+                          <Input
+                            type="text"
+                            placeholder="Data de nascimento"
+                            className={cn(`text-lg`)}
+                            onChange={field.onChange}
+                            defaultValue={field.value}
+                          />
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+
+                    <FormField
+                      control={form.control}
+                      name="email"
+                      render={({ field }) => (
+                        <FormItem>
+                          <Input
+                            type="email"
+                            placeholder="Email"
+                            className={cn(`text-lg`)}
+                            onChange={field.onChange}
+                            defaultValue={field.value}
+                          />
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+
+                    <FormField
+                      control={form.control}
+                      name="event"
+                      render={({ field }) => (
+                        <FormItem>
+                          <Select
+                            onValueChange={field.onChange}
+                            defaultValue={field.value}
+                          >
+                            <SelectTrigger className={cn(`text-lg`)}>
+                              <SelectValue placeholder="Selecione o evento desejado" />
+                            </SelectTrigger>
+                            <SelectContent className={cn(`text-lg`)}>
+                              {events.map((event) => (
+                                <SelectItem
+                                  key={event.title}
+                                  value={event.title}
+                                >
+                                  {event.title}
+                                </SelectItem>
+                              ))}
+                            </SelectContent>
+                          </Select>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                  </DialogDescription>
+                </DialogHeader>
+                <DialogFooter
+                  className={cn(`flex gap-10 items-center md:items-end`)}
                 >
-                  {submitting ? (
-                    <div className="flex gap-5">
-                      <HourglassEmptyIcon className="animate-spin" />
-                      <p>Enviando dados ...</p>
-                    </div>
-                  ) : (
-                    "Pronto"
-                  )}
-                </Button>
-                <DialogClose className={cn(`text-white text-lg w-20 h-10`)}>
-                  Cancelar
-                </DialogClose>
-              </DialogFooter>
-            </form>
-          </Form>
+                  <Button
+                    className="bg-primary w-fit pr-5 pl-5 h-10 shadow-[0px_0px_16px_5px_#0837DE] text-lg mt-10 order-1 md:order-last transition-all"
+                    type="submit"
+                  >
+                    {processingSubscribe ? (
+                      <div className="flex gap-5">
+                        <HourglassEmptyIcon className="animate-spin" />
+                        <p>Enviando dados ...</p>
+                      </div>
+                    ) : (
+                      "Pronto"
+                    )}
+                  </Button>
+                  <DialogClose className={cn(`text-white text-lg w-20 h-10`)}>
+                    Cancelar
+                  </DialogClose>
+                </DialogFooter>
+              </form>
+            </Form>
+          )}
         </DialogContent>
       </Dialog>
     </div>
