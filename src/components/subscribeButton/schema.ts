@@ -25,7 +25,7 @@ const SubscribeSchema = z.object({
       required_error: "Email é obrigatório",
     })
     .email("Email invalido"),
-  event: z.string({
+  eventId: z.string({
     required_error: "Por favor, indique o evento no qual deseja se inscrever",
   }),
 });

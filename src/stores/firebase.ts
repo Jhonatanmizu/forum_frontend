@@ -9,15 +9,31 @@ import {
   updateDoc,
   arrayUnion,
   deleteDoc,
+  arrayRemove,
+  query,
+  collection,
+  where,
+  getDocs,
 } from "firebase/firestore";
 //ShadcnUi
 import { useToast } from "@/components/ui/use-toast";
+//Data
+import { events as MockEvents } from "../components/subscribeButton/data";
+
 interface Participant {
   fullName: string;
   email: string;
   cpf: string;
   birthDate: string;
-  event: string;
+  events: string[];
+  eventId: string;
+}
+
+interface SelectOption {
+  eventId: string;
+  type: string;
+  speaker: string;
+  title: string;
 }
 
 const useFirebaseStore = () => {
@@ -26,15 +42,19 @@ const useFirebaseStore = () => {
     null
   );
   const [currentEvent, setCurrentEvent] = useState("");
+  const [currentUserEvents, setCurrentUserEvents] = useState<SelectOption[]>(
+    []
+  );
   const { toast } = useToast();
 
   const db = firestore;
 
   const participantsRef = "participants/";
+  const eventsRef = "events/";
 
   const handleFormData = async (data: Participant) => {
     setProcessingSubscribe(true);
-    const { cpf, event } = data;
+    const { cpf, eventId } = data;
 
     const docRef = doc(db, participantsRef, cpf);
     const docSnap = await getDoc(docRef);
@@ -42,8 +62,17 @@ const useFirebaseStore = () => {
     try {
       if (docSnap.exists()) {
         const existingData = docSnap.data() || [];
-        setCurrentUserData(existingData as Participant);
-        setCurrentEvent(event);
+
+        const userData = existingData as Participant;
+
+        setCurrentUserData(userData);
+        setCurrentEvent(eventId);
+
+        const filteredEvents = MockEvents.filter((item, index) => {
+          return item.eventId === userData.events[index];
+        });
+
+        setCurrentUserEvents(filteredEvents as SelectOption[]);
         setProcessingSubscribe(false);
         return;
       } else {
@@ -64,17 +93,22 @@ const useFirebaseStore = () => {
   const addNewParticipant = async (data: Participant) => {
     setProcessingSubscribe(true);
 
-    const { fullName, email, cpf, event, birthDate } = data;
+    const { fullName, email, cpf, birthDate, eventId } = data;
 
     try {
-      const docRef = doc(db, participantsRef, cpf);
+      const userDocRef = doc(db, participantsRef, cpf); //DocRef for user
+      const eventDocRef = doc(db, eventsRef, eventId); //DocRef for user in events doc
 
-      await setDoc(docRef, {
+      await setDoc(userDocRef, {
         fullName: fullName,
         email: email,
         cpf: cpf,
         birthDate: birthDate,
-        events: [event],
+        events: [eventId],
+      });
+
+      await updateDoc(eventDocRef, {
+        participants: arrayUnion(cpf),
       });
 
       toast({
@@ -101,19 +135,33 @@ const useFirebaseStore = () => {
 
     const { fullName, email, cpf, birthDate } = currentUserData;
 
-    const docRef = doc(db, participantsRef, cpf);
-    const docSnap = await getDoc(docRef);
+    const userDocRef = doc(db, participantsRef, cpf); //DocRef for user
+    const eventDocRef = doc(db, eventsRef, currentEvent); //DocRef for user in events doc
 
-    const existingEvents = docSnap.exists() ? docSnap.data().events || [] : [];
+    const userDocSnap = await getDoc(userDocRef); //Get User info
+    const eventDocSnap = await getDoc(eventDocRef); //Get event info
+
+    const existingEvents = userDocSnap.exists()
+      ? userDocSnap.data().events || []
+      : [];
+    const existingUser = eventDocSnap.exists()
+      ? eventDocSnap.data().participants || []
+      : [];
 
     try {
       if (!existingEvents.includes(currentEvent)) {
-        await updateDoc(docRef, {
+        await updateDoc(userDocRef, {
           fullName: fullName,
           email: email,
           cpf: cpf,
           birthDate: birthDate,
           events: arrayUnion(currentEvent),
+        });
+      }
+
+      if (!existingUser.includes(cpf)) {
+        await updateDoc(eventDocRef, {
+          participants: arrayUnion(cpf),
         });
       }
       toast({
@@ -140,10 +188,21 @@ const useFirebaseStore = () => {
 
     const { cpf } = currentUserData;
 
-    const docRef = doc(db, participantsRef, cpf);
+    const userDocRef = doc(db, participantsRef, cpf); //DocRef for user
 
     try {
-      await deleteDoc(docRef);
+      await deleteDoc(userDocRef);
+      const queryCommand = query(
+        collection(db, "events"),
+        where("participants", "array-contains", cpf)
+      );
+      const querySnapshot = await getDocs(queryCommand);
+
+      querySnapshot.forEach(async (doc) => {
+        await updateDoc(doc.ref, {
+          participants: arrayRemove(cpf),
+        });
+      });
 
       toast({
         title: "A sua inscrição foi removida! 🤧",
@@ -166,6 +225,7 @@ const useFirebaseStore = () => {
   return {
     processingSubscribe,
     currentUserData,
+    currentUserEvents,
     handleFormData,
     addNewParticipant,
     updateParticipant,

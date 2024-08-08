@@ -33,6 +33,15 @@ import useFirebaseStore from "../../stores/firebase";
 //Icons
 import HourglassEmptyIcon from "@mui/icons-material/HourglassEmpty";
 
+interface Participant {
+  fullName: string;
+  email: string;
+  cpf: string;
+  birthDate: string;
+  events: string[];
+  eventId: string;
+}
+
 const SubscribeButton = () => {
   const {
     handleFormData,
@@ -40,6 +49,7 @@ const SubscribeButton = () => {
     deleteParticipant,
     currentUserData,
     processingSubscribe,
+    currentUserEvents,
   } = useFirebaseStore();
 
   const form = useForm<z.infer<typeof SubscribeSchema>>({
@@ -47,7 +57,7 @@ const SubscribeButton = () => {
   });
 
   const onSubmit = async (data: z.infer<typeof SubscribeSchema>) => {
-    await handleFormData(data);
+    await handleFormData(data as Participant);
   };
 
   return (
@@ -78,10 +88,13 @@ const SubscribeButton = () => {
             <div>
               <DialogHeader>
                 <DialogTitle className="text-2lg">
-                  Parece que você já está inscrito
+                  Parece que você já está inscrito em:
+                  {currentUserEvents.map((item) => {
+                    return <p className="text-lg mt-2">{item.title}</p>;
+                  })}
                 </DialogTitle>
                 <DialogDescription>
-                  <p className="text-lg">Oque você deseja fazer?</p>
+                  <p className="text-lg mt-5">Oque você deseja fazer?</p>
                   <div className="flex flex-row justify-around">
                     <Button
                       className="bg-primary w-fit pr-5 pl-5 h-10 shadow-[0px_0px_16px_5px_#0837DE] text-lg mt-10 order-1 md:order-last transition-all"
@@ -93,7 +106,7 @@ const SubscribeButton = () => {
                           <p>Processando ...</p>
                         </div>
                       ) : (
-                        "Atualizar minha inscrição!"
+                        "Atualizar minhas inscrições!"
                       )}
                     </Button>
                     <Button
@@ -192,7 +205,7 @@ const SubscribeButton = () => {
 
                     <FormField
                       control={form.control}
-                      name="event"
+                      name="eventId"
                       render={({ field }) => (
                         <FormItem>
                           <Select
@@ -205,8 +218,8 @@ const SubscribeButton = () => {
                             <SelectContent className={cn(`text-lg`)}>
                               {events.map((event) => (
                                 <SelectItem
-                                  key={event.title}
-                                  value={event.title}
+                                  key={event.eventId}
+                                  value={event.eventId}
                                 >
                                   {event.title}
                                 </SelectItem>

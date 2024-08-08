@@ -1,4 +1,5 @@
 interface selectOption {
+  eventId: string;
   type: string;
   speaker: string;
   title: string;
@@ -6,18 +7,20 @@ interface selectOption {
 
 const events: selectOption[] = [
   {
+    eventId: "vCGRFkGeN6VEzKR2pUNx",
     type: "Minicurso",
     speaker: "Elder Pimenta",
     title: "Inteligência Artificial na Saúde: Abrindo o Código Fonte",
   },
   {
+    eventId: "1EtKenBwdkFhD8ZFNKjp",
     type: "Oficina",
     speaker: "Leandro dos Santos Gonzalez",
     title: "Expert Sinta: criando um SISTEMA ESPECIALISTA",
   },
 ];
 
-const lectures: selectOption[] = [
+const lectures: Partial<selectOption>[] = [
   {
     type: "Palestra",
     speaker: "Elder Pimenta",
