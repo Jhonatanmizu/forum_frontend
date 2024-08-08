@@ -18,7 +18,7 @@ const miniCourses: MiniCourse[] = [
   },
   {
     type: "Oficina",
-    speaker: "Leandro dos Santos Gonzales",
+    speaker: "Leandro dos Santos Gonzalez",
     title: "Expert Sinta: criando um SISTEMA ESPECIALISTA",
     photo: Leandro,
   },

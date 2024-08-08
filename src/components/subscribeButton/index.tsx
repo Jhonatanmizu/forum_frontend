@@ -2,23 +2,90 @@
 import { Button } from "../";
 import { cn } from "../../lib/utils";
 import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-  AlertDialogTrigger,
-} from "@/components/ui/alert-dialog";
+  Dialog,
+  DialogClose,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { Form, FormField, FormItem, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+//Zod
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
+//Schema
+import { SubscribeSchema } from "./schema";
+//Store
+import useFirebaseStore from "../../stores/firebase";
+//Icons
+import HourglassEmptyIcon from "@mui/icons-material/HourglassEmpty";
+import { SelectOption } from "@/types";
+import { useEffect, useMemo, useState } from "react";
+
+interface Participant {
+  fullName: string;
+  email: string;
+  cpf: string;
+  birthDate: string;
+  events: string[];
+  eventId: string;
+}
 
 const SubscribeButton = () => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const {
+    handleFormData,
+    updateParticipant,
+    deleteParticipant,
+    currentUserData,
+    processingSubscribe,
+    currentUserEvents,
+    getMiniCourses,
+    availableMiniCourses,
+  } = useFirebaseStore();
+
+  const selectMiniCourses: SelectOption[] = useMemo(
+    () =>
+      availableMiniCourses.map<SelectOption>((amc) => {
+        return {
+          eventId: amc?.id,
+          speaker: amc.speaker,
+          title: amc.name,
+          type: amc.type,
+        } as SelectOption;
+      }),
+    [availableMiniCourses.length]
+  );
+
+  const form = useForm<z.infer<typeof SubscribeSchema>>({
+    resolver: zodResolver(SubscribeSchema),
+  });
+
+  const onSubmit = async (data: z.infer<typeof SubscribeSchema>) => {
+    await handleFormData(data as Participant);
+    form.reset();
+    setIsModalOpen(false);
+  };
+
+  useEffect(() => {
+    getMiniCourses();
+  }, []);
+
   return (
     <div className="flex flex-row justify-around pt-10 text-2lg md:text-3lg">
-      <AlertDialog>
-        <AlertDialogTrigger asChild>
+      <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
+        <DialogTrigger asChild>
           <Button
             variant="ghost"
             className={cn(
@@ -31,51 +98,187 @@ const SubscribeButton = () => {
           >
             quero me inscrever
           </Button>
-        </AlertDialogTrigger>
-        <AlertDialogContent
+        </DialogTrigger>
+        <DialogContent
           className={cn(
             `flex flex-col p-5 md:p-10 bg-background-1 shadow-[0px_0px_5px_1px_#ffffff]
-              w-[330px] md:w-[770px] max-w-full border-none
+             w-[330px] md:w-[770px] max-w-full border-none
             text-white`
           )}
         >
-          <AlertDialogHeader>
-            <AlertDialogTitle className="text-2lg">
-              Faça usa inscrição
-            </AlertDialogTitle>
-            <AlertDialogDescription className="flex flex-col gap-3">
-              <Input
-                type="text"
-                placeholder="nome completo"
-                className={cn(`text-lg`)}
-              />
-              <Input
-                type="number"
-                placeholder="cpf"
-                className={cn(`text-lg`)}
-              />
-              <Input
-                type="text"
-                placeholder="data de nascimento"
-                className={cn(`text-lg`)}
-              />
-              <Input
-                type="email"
-                placeholder="email"
-                className={cn(`text-lg`)}
-              />
-            </AlertDialogDescription>
-          </AlertDialogHeader>
-          <AlertDialogFooter>
-            <AlertDialogCancel className="text-black text-lg">
-              Cancelar
-            </AlertDialogCancel>
-            <AlertDialogAction className="bg-primary shadow-[0px_0px_16px_5px_#0837DE] text-lg">
-              Pronto
-            </AlertDialogAction>
-          </AlertDialogFooter>
-        </AlertDialogContent>
-      </AlertDialog>
+          {currentUserData ? (
+            <div>
+              <DialogHeader>
+                <DialogTitle className="text-2lg">
+                  Parece que você já está inscrito em:
+                  {currentUserEvents.map((item) => {
+                    return <p className="text-lg mt-2">{item.title}</p>;
+                  })}
+                </DialogTitle>
+                <DialogDescription>
+                  <p className="text-lg mt-5">Oque você deseja fazer?</p>
+                  <div className="flex flex-row justify-around">
+                    <Button
+                      className="bg-primary w-fit pr-5 pl-5 h-10 shadow-[0px_0px_16px_5px_#0837DE] text-lg mt-10 order-1 md:order-last transition-all"
+                      onClick={() => updateParticipant()}
+                    >
+                      {processingSubscribe ? (
+                        <div className="flex gap-5">
+                          <HourglassEmptyIcon className="animate-spin" />
+                          <p>Processando ...</p>
+                        </div>
+                      ) : (
+                        "Atualizar minhas inscrições!"
+                      )}
+                    </Button>
+                    <Button
+                      className="w-fit pr-5 pl-5 h-10 shadow-[0px_0px_5px_1px_#e73149] text-lg mt-10 order-1 md:order-last transition-all"
+                      onClick={() => deleteParticipant()}
+                    >
+                      {processingSubscribe ? (
+                        <div className="flex gap-5">
+                          <HourglassEmptyIcon className="animate-spin" />
+                          <p>Processando ...</p>
+                        </div>
+                      ) : (
+                        "Cancelar minha inscrição!"
+                      )}
+                    </Button>
+                  </div>
+                </DialogDescription>
+              </DialogHeader>
+              <DialogFooter></DialogFooter>
+            </div>
+          ) : (
+            <Form {...form}>
+              <form onSubmit={form.handleSubmit(onSubmit)}>
+                <DialogHeader>
+                  <DialogTitle className="text-2lg">
+                    Faça usa inscrição
+                  </DialogTitle>
+                  <DialogDescription className="flex flex-col gap-3">
+                    <FormField
+                      control={form.control}
+                      name="fullName"
+                      render={({ field }) => (
+                        <FormItem>
+                          <Input
+                            type="text"
+                            placeholder="Nome completo"
+                            className={cn(`text-lg`)}
+                            onChange={field.onChange}
+                            defaultValue={field.value}
+                          />
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+
+                    <FormField
+                      control={form.control}
+                      name="cpf"
+                      render={({ field }) => (
+                        <FormItem>
+                          <Input
+                            type="number"
+                            placeholder="CPF"
+                            className={cn(`text-lg`)}
+                            onChange={field.onChange}
+                            defaultValue={field.value}
+                          />
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+
+                    <FormField
+                      control={form.control}
+                      name="birthDate"
+                      render={({ field }) => (
+                        <FormItem>
+                          <Input
+                            type="text"
+                            placeholder="Data de nascimento"
+                            className={cn(`text-lg`)}
+                            onChange={field.onChange}
+                            defaultValue={field.value}
+                          />
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+
+                    <FormField
+                      control={form.control}
+                      name="email"
+                      render={({ field }) => (
+                        <FormItem>
+                          <Input
+                            type="email"
+                            placeholder="Email"
+                            className={cn(`text-lg`)}
+                            onChange={field.onChange}
+                            defaultValue={field.value}
+                          />
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+
+                    <FormField
+                      control={form.control}
+                      name="eventId"
+                      render={({ field }) => (
+                        <FormItem>
+                          <Select
+                            onValueChange={field.onChange}
+                            defaultValue={field.value}
+                          >
+                            <SelectTrigger className={cn(`text-lg`)}>
+                              <SelectValue placeholder="Selecione o evento desejado" />
+                            </SelectTrigger>
+                            <SelectContent className={cn(`text-lg`)}>
+                              {selectMiniCourses.map((event) => (
+                                <SelectItem
+                                  key={event.eventId}
+                                  value={event.eventId}
+                                >
+                                  {event.title}
+                                </SelectItem>
+                              ))}
+                            </SelectContent>
+                          </Select>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                  </DialogDescription>
+                </DialogHeader>
+                <DialogFooter
+                  className={cn(`flex gap-10 items-center md:items-end`)}
+                >
+                  <Button
+                    className="bg-primary w-fit pr-5 pl-5 h-10 shadow-[0px_0px_16px_5px_#0837DE] text-lg mt-10 order-1 md:order-last transition-all"
+                    type="submit"
+                  >
+                    {processingSubscribe ? (
+                      <div className="flex gap-5">
+                        <HourglassEmptyIcon className="animate-spin" />
+                        <p>Enviando dados ...</p>
+                      </div>
+                    ) : (
+                      "Pronto"
+                    )}
+                  </Button>
+                  <DialogClose className={cn(`text-white text-lg w-20 h-10`)}>
+                    Cancelar
+                  </DialogClose>
+                </DialogFooter>
+              </form>
+            </Form>
+          )}
+        </DialogContent>
+      </Dialog>
     </div>
   );
 };

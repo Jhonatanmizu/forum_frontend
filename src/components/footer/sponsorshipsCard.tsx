@@ -2,7 +2,7 @@ interface Sponsorship {
   title?: string;
   subtitle?: string;
   photo?: string;
-  alt: string;
+  alt?: string;
 }
 
 const SponsorshipsCard = (sponsorship: Sponsorship) => {

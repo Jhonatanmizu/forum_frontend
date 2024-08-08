@@ -15,7 +15,7 @@ const Header = () => {
   };
 
   return (
-    <div className="flex flex-row max-w-full justify-around pt-5">
+    <div className="flex flex-row max-w-full justify-around pt-5 z-10">
       <Button
         variant="outline"
         className={cn(
