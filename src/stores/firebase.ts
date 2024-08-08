@@ -15,19 +15,11 @@ import {
   where,
   getDocs,
 } from "firebase/firestore";
-//ShadcnUi
+// ShadcnUi
 import { useToast } from "@/components/ui/use-toast";
 //Data
 import { events as MockEvents } from "../components/subscribeButton/data";
-
-interface Participant {
-  fullName: string;
-  email: string;
-  cpf: string;
-  birthDate: string;
-  events: string[];
-  eventId: string;
-}
+import { Participant, Event } from "@/types";
 
 interface SelectOption {
   eventId: string;
@@ -45,6 +37,8 @@ const useFirebaseStore = () => {
   const [currentUserEvents, setCurrentUserEvents] = useState<SelectOption[]>(
     []
   );
+
+  const [availableMiniCourses, setAvailableMiniCourses] = useState<Event[]>([]);
   const { toast } = useToast();
 
   const db = firestore;
@@ -62,22 +56,17 @@ const useFirebaseStore = () => {
     try {
       if (docSnap.exists()) {
         const existingData = docSnap.data() || [];
-
         const userData = existingData as Participant;
-
         setCurrentUserData(userData);
         setCurrentEvent(eventId);
-
         const filteredEvents = MockEvents.filter((item, index) => {
           return item.eventId === userData.events[index];
         });
-
         setCurrentUserEvents(filteredEvents as SelectOption[]);
         setProcessingSubscribe(false);
         return;
-      } else {
-        addNewParticipant(data);
       }
+      await addNewParticipant(data);
     } catch (error) {
       toast({
         variant: "destructive",
@@ -96,8 +85,22 @@ const useFirebaseStore = () => {
     const { fullName, email, cpf, birthDate, eventId } = data;
 
     try {
-      const userDocRef = doc(db, participantsRef, cpf); //DocRef for user
-      const eventDocRef = doc(db, eventsRef, eventId); //DocRef for user in events doc
+      const userDocRef = doc(db, participantsRef, cpf);
+      const eventDocRef = doc(db, eventsRef, eventId);
+      const eventDocSnap = await getDoc(eventDocRef);
+      const eventData = eventDocSnap.data() as Event;
+
+      const canSubscribeInEvent =
+        eventData?.participants &&
+        eventData.participants?.length <= eventData.limit;
+
+      if (!canSubscribeInEvent) {
+        return toast({
+          variant: "destructive",
+          title: "Inscrições encerradas... 😓",
+          description: "O limite de vagas foi excedido",
+        });
+      }
 
       await setDoc(userDocRef, {
         fullName: fullName,
@@ -110,6 +113,9 @@ const useFirebaseStore = () => {
       await updateDoc(eventDocRef, {
         participants: arrayUnion(cpf),
       });
+
+      setCurrentEvent("");
+      setCurrentUserData(null);
 
       toast({
         title: "Sua inscrição foi confirmada! 🥳",
@@ -222,6 +228,28 @@ const useFirebaseStore = () => {
     }
   };
 
+  const getMiniCourses = async () => {
+    try {
+      const docRef = collection(db, "events");
+      const docSnap = await getDocs(docRef);
+      const data: Event[] =
+        docSnap.docs.map((d) => {
+          return {
+            id: d.id,
+            ...d.data(),
+          } as Event;
+        }) || [];
+      const eventsWithNotExceedLimit = data.filter((d: Event) => {
+        return d?.participants && d.participants.length <= d.limit;
+      });
+      setAvailableMiniCourses(eventsWithNotExceedLimit);
+      return eventsWithNotExceedLimit;
+    } catch (error) {
+      console.error("Error when we tried to get mini courses", error);
+      throw error;
+    }
+  };
+
   return {
     processingSubscribe,
     currentUserData,
@@ -230,6 +258,8 @@ const useFirebaseStore = () => {
     addNewParticipant,
     updateParticipant,
     deleteParticipant,
+    getMiniCourses,
+    availableMiniCourses,
   };
 };
 

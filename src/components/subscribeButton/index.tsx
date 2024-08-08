@@ -20,8 +20,6 @@ import {
 } from "@/components/ui/select";
 import { Form, FormField, FormItem, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-//Data
-import { events } from "./data";
 //Zod
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
@@ -32,6 +30,8 @@ import { SubscribeSchema } from "./schema";
 import useFirebaseStore from "../../stores/firebase";
 //Icons
 import HourglassEmptyIcon from "@mui/icons-material/HourglassEmpty";
+import { SelectOption } from "@/types";
+import { useEffect, useMemo, useState } from "react";
 
 interface Participant {
   fullName: string;
@@ -43,6 +43,7 @@ interface Participant {
 }
 
 const SubscribeButton = () => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const {
     handleFormData,
     updateParticipant,
@@ -50,7 +51,22 @@ const SubscribeButton = () => {
     currentUserData,
     processingSubscribe,
     currentUserEvents,
+    getMiniCourses,
+    availableMiniCourses,
   } = useFirebaseStore();
+
+  const selectMiniCourses: SelectOption[] = useMemo(
+    () =>
+      availableMiniCourses.map<SelectOption>((amc) => {
+        return {
+          eventId: amc?.id,
+          speaker: amc.speaker,
+          title: amc.name,
+          type: amc.type,
+        } as SelectOption;
+      }),
+    [availableMiniCourses.length]
+  );
 
   const form = useForm<z.infer<typeof SubscribeSchema>>({
     resolver: zodResolver(SubscribeSchema),
@@ -58,11 +74,17 @@ const SubscribeButton = () => {
 
   const onSubmit = async (data: z.infer<typeof SubscribeSchema>) => {
     await handleFormData(data as Participant);
+    form.reset();
+    setIsModalOpen(false);
   };
+
+  useEffect(() => {
+    getMiniCourses();
+  }, []);
 
   return (
     <div className="flex flex-row justify-around pt-10 text-2lg md:text-3lg">
-      <Dialog>
+      <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
         <DialogTrigger asChild>
           <Button
             variant="ghost"
@@ -216,7 +238,7 @@ const SubscribeButton = () => {
                               <SelectValue placeholder="Selecione o evento desejado" />
                             </SelectTrigger>
                             <SelectContent className={cn(`text-lg`)}>
-                              {events.map((event) => (
+                              {selectMiniCourses.map((event) => (
                                 <SelectItem
                                   key={event.eventId}
                                   value={event.eventId}
