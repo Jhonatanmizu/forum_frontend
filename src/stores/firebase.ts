@@ -240,7 +240,7 @@ const useFirebaseStore = () => {
           } as Event;
         }) || [];
       const eventsWithNotExceedLimit = data.filter((d: Event) => {
-        return d?.participants && d.participants.length <= d.limit;
+        return !d?.participants || d?.participants?.length <= d.limit;
       });
       setAvailableMiniCourses(eventsWithNotExceedLimit);
       return eventsWithNotExceedLimit;
