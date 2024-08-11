@@ -97,7 +97,7 @@ const useFirebaseStore = () => {
       const eventData = eventDocSnap.data() as Event;
 
       const canSubscribeInEvent =
-        !eventData?.participants ||
+        !eventData.participants ||
         (!!eventData?.participants &&
           eventData.participants?.length <= eventData.limit);
 
