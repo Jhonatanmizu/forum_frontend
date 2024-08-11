@@ -18,6 +18,12 @@ const events: selectOption[] = [
     speaker: "Leandro dos Santos Gonzalez",
     title: "Expert Sinta: criando um SISTEMA ESPECIALISTA",
   },
+  {
+    eventId: "W8oikYqT2N6uHpu4t6wG",
+    type: "Global",
+    speaker: "",
+    title: "Quero me inscrever como participante",
+  },
 ];
 
 const lectures: Partial<selectOption>[] = [

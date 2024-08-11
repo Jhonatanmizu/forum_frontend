@@ -38,6 +38,11 @@ const useFirebaseStore = () => {
     []
   );
 
+  const [formMessageTitle, setFormMessageTitle] = useState<string | null>(null);
+  const [formMessageSubTitle, setFormMessageSubTitle] = useState<string | null>(
+    null
+  );
+
   const [availableMiniCourses, setAvailableMiniCourses] = useState<Event[]>([]);
   const { toast } = useToast();
 
@@ -59,11 +64,12 @@ const useFirebaseStore = () => {
         const userData = existingData as Participant;
         setCurrentUserData(userData);
         setCurrentEvent(eventId);
-        const filteredEvents = MockEvents.filter((item, index) => {
-          return item.eventId === userData.events[index];
+        const filteredEvents = MockEvents.filter((mockEvent) => {
+          return userData.events.some((userDataEvent) => {
+            return mockEvent.eventId === userDataEvent;
+          });
         });
         setCurrentUserEvents(filteredEvents as SelectOption[]);
-        setProcessingSubscribe(false);
         return;
       }
       await addNewParticipant(data);
@@ -91,8 +97,9 @@ const useFirebaseStore = () => {
       const eventData = eventDocSnap.data() as Event;
 
       const canSubscribeInEvent =
-        eventData?.participants &&
-        eventData.participants?.length <= eventData.limit;
+        !eventData?.participants ||
+        (!!eventData?.participants &&
+          eventData.participants?.length <= eventData.limit);
 
       if (!canSubscribeInEvent) {
         return toast({
@@ -116,6 +123,12 @@ const useFirebaseStore = () => {
 
       setCurrentEvent("");
       setCurrentUserData(null);
+      setCurrentUserEvents([]);
+
+      setFormMessageTitle("Sua inscrição foi confirmada! 🤩");
+      setFormMessageSubTitle(
+        "No dia do evento, apresente seu CPF a um de nossos colaboradores para confirmar a sua presença! 🫶"
+      );
 
       toast({
         title: "Sua inscrição foi confirmada! 🥳",
@@ -123,6 +136,9 @@ const useFirebaseStore = () => {
           "Lembre de marcar presença no dia do evento! Procure um dos nossos colaboradores!",
       });
     } catch (error) {
+      setFormMessageTitle("Ocorreu um problema... 🤖");
+      setFormMessageSubTitle("Tente novamente mais tarde...");
+
       toast({
         variant: "destructive",
         title: "Ocorreu um erro ao enviar sua inscrição... 😓",
@@ -170,12 +186,25 @@ const useFirebaseStore = () => {
           participants: arrayUnion(cpf),
         });
       }
+
+      setCurrentEvent("");
+      setCurrentUserData(null);
+      setCurrentUserEvents([]);
+
+      setFormMessageTitle("Sua inscrição foi atualizada! 🤩");
+      setFormMessageSubTitle(
+        "No dia do evento, apresente seu CPF a um de nossos colaboradores para confirmar a sua presença! 🫶"
+      );
+
       toast({
         title: "A sua inscrição foi atualizada! 😎",
         description:
           "Lembre de marcar presença no dia do evento! Procure um dos nossos colaboradores!",
       });
     } catch (error) {
+      setFormMessageTitle("Ocorreu um problema... 🤖");
+      setFormMessageSubTitle("Tente novamente mais tarde...");
+
       toast({
         variant: "destructive",
         title: "Ocorreu um erro ao atualizar inscrição... 😓",
@@ -194,7 +223,7 @@ const useFirebaseStore = () => {
 
     const { cpf } = currentUserData;
 
-    const userDocRef = doc(db, participantsRef, cpf); //DocRef for user
+    const userDocRef = doc(db, participantsRef, cpf);
 
     try {
       await deleteDoc(userDocRef);
@@ -210,12 +239,14 @@ const useFirebaseStore = () => {
         });
       });
 
+      setCurrentEvent("");
+      setCurrentUserData(null);
+      setCurrentUserEvents([]);
+
       toast({
         title: "A sua inscrição foi removida! 🤧",
         description: "Esperamos te ver em outros eventos!",
       });
-
-      setCurrentUserData(null);
     } catch (error) {
       toast({
         variant: "destructive",
@@ -229,6 +260,8 @@ const useFirebaseStore = () => {
   };
 
   const getMiniCourses = async () => {
+    setProcessingSubscribe(true);
+
     try {
       const docRef = collection(db, "events");
       const docSnap = await getDocs(docRef);
@@ -247,6 +280,8 @@ const useFirebaseStore = () => {
     } catch (error) {
       console.error("Error when we tried to get mini courses", error);
       throw error;
+    } finally {
+      setProcessingSubscribe(false);
     }
   };
 
@@ -260,6 +295,10 @@ const useFirebaseStore = () => {
     deleteParticipant,
     getMiniCourses,
     availableMiniCourses,
+    formMessageTitle,
+    formMessageSubTitle,
+    setFormMessageTitle,
+    setFormMessageSubTitle,
   };
 };
 

@@ -44,6 +44,7 @@ interface Participant {
 
 const SubscribeButton = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
+
   const {
     handleFormData,
     updateParticipant,
@@ -53,6 +54,10 @@ const SubscribeButton = () => {
     currentUserEvents,
     getMiniCourses,
     availableMiniCourses,
+    formMessageTitle,
+    formMessageSubTitle,
+    setFormMessageTitle,
+    setFormMessageSubTitle,
   } = useFirebaseStore();
 
   const selectMiniCourses: SelectOption[] = useMemo(
@@ -75,7 +80,13 @@ const SubscribeButton = () => {
   const onSubmit = async (data: z.infer<typeof SubscribeSchema>) => {
     await handleFormData(data as Participant);
     form.reset();
+  };
+
+  const handleCloseModal = () => {
     setIsModalOpen(false);
+
+    setFormMessageTitle(null);
+    setFormMessageSubTitle(null);
   };
 
   useEffect(() => {
@@ -141,8 +152,28 @@ const SubscribeButton = () => {
                           <p>Processando ...</p>
                         </div>
                       ) : (
-                        "Cancelar minha inscrição!"
+                        "Cancelar minhas inscrições!"
                       )}
+                    </Button>
+                  </div>
+                </DialogDescription>
+              </DialogHeader>
+              <DialogFooter></DialogFooter>
+            </div>
+          ) : formMessageTitle ? (
+            <div className="flex flex-col items-center justify-around">
+              <DialogHeader>
+                <DialogTitle className="text-2lg">
+                  <p>{formMessageTitle}</p>
+                  <p>{formMessageSubTitle}</p>
+                </DialogTitle>
+                <DialogDescription>
+                  <div className="flex flex-row justify-around">
+                    <Button
+                      className="w-fit pr-5 pl-5 h-10 shadow-[0px_0px_5px_1px_#0837DE] text-lg mt-10 order-1 md:order-last transition-all"
+                      onClick={() => handleCloseModal()}
+                    >
+                      Entendido!
                     </Button>
                   </div>
                 </DialogDescription>
@@ -181,7 +212,8 @@ const SubscribeButton = () => {
                         <FormItem>
                           <Input
                             type="number"
-                            placeholder="CPF"
+                            maxLength={11}
+                            placeholder="CPF (apenas números)"
                             className={cn(`text-lg`)}
                             onChange={field.onChange}
                             defaultValue={field.value}
