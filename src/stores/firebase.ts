@@ -45,6 +45,7 @@ const useFirebaseStore = () => {
 
   const participantsRef = "participants/";
   const eventsRef = "events/";
+  const presenceRef = "presence/";
 
   const handleFormData = async (data: Participant) => {
     setProcessingSubscribe(true);
@@ -119,7 +120,7 @@ const useFirebaseStore = () => {
       setCurrentUserData(null);
 
       toast({
-        title: "Sua inscrição foi confirmada! 🥳",
+        title: "Sua inscrição foi confirmada!",
         description:
           "Lembre de marcar presença no dia do evento! Procure um dos nossos colaboradores!",
       });
@@ -251,6 +252,69 @@ const useFirebaseStore = () => {
     }
   };
 
+  const confirmPresence = async (data: { cpf: string; eventId: string }) => {
+    try {
+      const { cpf, eventId } = data;
+
+      const docRef = doc(db, participantsRef, cpf);
+      const docSnap = await getDoc(docRef);
+
+      const participantExists = docSnap.exists();
+
+      if (!participantExists) {
+        return toast({
+          variant: "destructive",
+          title: `O participante com o cpf ${cpf} não foi encontrado... 😓`,
+        });
+      }
+
+      const userData = docSnap.data() as Participant;
+      const hasSubscriptionInEvent = userData.events.includes(eventId);
+
+      if (!hasSubscriptionInEvent) {
+        toast({
+          variant: "destructive",
+          title: `O participante com o cpf ${cpf} não está inscrito no evento selecionado... 😓`,
+        });
+        return;
+      }
+
+      const eventDocRef = doc(db, eventsRef, eventId);
+      const eventDocSnap = await getDoc(eventDocRef);
+      const eventData = eventDocSnap.data() as Event;
+
+      const presenceCollection = collection(db, presenceRef);
+
+      const presenceListRef = doc(
+        presenceCollection,
+        `${eventId}-${userData.cpf}`
+      );
+
+      const presenceDate = new Date().toLocaleDateString("pt-br", {
+        day: "2-digit",
+        month: "2-digit",
+        year: "numeric",
+      });
+
+      await setDoc(presenceListRef, {
+        fullName: userData.fullName,
+        birthDate: userData.birthDate,
+        cpf: userData.cpf,
+        email: userData.email,
+        eventName: eventData.name,
+        date: presenceDate,
+      });
+
+      return toast({
+        variant: "default",
+        title: `A sua presença no evento ${eventData.name} foi confirmada com sucesso! 🥳`,
+      });
+    } catch (error) {
+      console.error("Error when we tried to confirm presence", error);
+      throw error;
+    }
+  };
+
   return {
     processingSubscribe,
     currentUserData,
@@ -260,6 +324,7 @@ const useFirebaseStore = () => {
     updateParticipant,
     deleteParticipant,
     getMiniCourses,
+    confirmPresence,
     availableMiniCourses,
   };
 };
