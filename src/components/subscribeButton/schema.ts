@@ -6,12 +6,12 @@ const SubscribeSchema = z.object({
     .string({
       required_error: "Nome completo é obrigatório",
     })
-    .nonempty("Por favor, informe seu nome completo."),
+    .min(5, "Por favor, informe seu nome completo."),
   cpf: z
     .string({
       required_error: "CPF é obrigatório",
     })
-    .regex(/^\d{11}$/, "CPF deve ter exatamente 11 dígitos"),
+    .min(11, "CPF deve ter exatamente 11 dígitos"),
   birthDate: z
     .string({
       required_error: "A data de nascimento é obrigatória",
