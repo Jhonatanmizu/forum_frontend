@@ -6,7 +6,7 @@ const SubscribeSchema = z.object({
     .string({
       required_error: "Nome completo é obrigatório",
     })
-    .nonempty("Por favor, informe seu nome completo."),
+    .min(5, "Por favor, informe seu nome completo."),
   cpf: z
     .string({
       required_error: "CPF é obrigatório",
