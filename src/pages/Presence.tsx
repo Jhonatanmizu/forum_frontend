@@ -15,9 +15,11 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { toast } from "@/components/ui/use-toast";
 import { cn } from "@/lib/utils";
 import useFirebaseStore from "@/stores/firebase";
 import { SelectOption } from "@/types";
+import { formatStringToCpf, isValidCPF, removeSpecialChars } from "@/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useEffect, useMemo } from "react";
 import { useForm } from "react-hook-form";
@@ -28,7 +30,7 @@ const formSchema = z.object({
     .string({
       required_error: "CPF é obrigatório",
     })
-    .regex(/^\d{11}$/, "CPF deve ter exatamente 11 dígitos"),
+    .min(11, "CPF deve ter exatamente 11 dígitos e ser válido"),
   eventId: z.string({
     required_error: "Por favor, indique o evento no qual deseja se inscrever",
   }),
@@ -63,10 +65,15 @@ const Presence = () => {
 
   const handleSubmit = async (data: formData) => {
     const { cpf, eventId } = data;
-    console.log("HADOUKEN HERE");
-
-    await confirmPresence({ cpf, eventId });
-    // form.reset();
+    const cpfIsValid = isValidCPF(data.cpf);
+    if (!cpfIsValid) {
+      return toast({
+        variant: "destructive",
+        title: "CPF inválido",
+      });
+    }
+    await confirmPresence({ cpf: removeSpecialChars(cpf), eventId });
+    form.reset();
   };
 
   return (
@@ -92,6 +99,7 @@ const Presence = () => {
                     <Input
                       placeholder="CPF"
                       {...field}
+                      value={formatStringToCpf(field.value)}
                       className={cn(`text-lg`)}
                     />
                   </FormControl>

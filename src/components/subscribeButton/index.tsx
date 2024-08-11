@@ -32,6 +32,8 @@ import useFirebaseStore from "../../stores/firebase";
 import HourglassEmptyIcon from "@mui/icons-material/HourglassEmpty";
 import { SelectOption } from "@/types";
 import { useEffect, useMemo, useState } from "react";
+import { formatStringToCpf, isValidCPF, removeSpecialChars } from "@/utils";
+import { toast } from "../ui/use-toast";
 
 interface Participant {
   fullName: string;
@@ -73,7 +75,18 @@ const SubscribeButton = () => {
   });
 
   const onSubmit = async (data: z.infer<typeof SubscribeSchema>) => {
-    await handleFormData(data as Participant);
+    const cleanData: Participant = {
+      ...data,
+      cpf: removeSpecialChars(data.cpf),
+    } as Participant;
+    const cpfIsValid = isValidCPF(data.cpf);
+    if (!cpfIsValid) {
+      return toast({
+        variant: "destructive",
+        title: "CPF inválido",
+      });
+    }
+    await handleFormData(cleanData as Participant);
     form.reset();
     setIsModalOpen(false);
   };
@@ -180,11 +193,11 @@ const SubscribeButton = () => {
                       render={({ field }) => (
                         <FormItem>
                           <Input
-                            type="number"
                             placeholder="CPF"
                             className={cn(`text-lg`)}
                             onChange={field.onChange}
-                            defaultValue={field.value}
+                            value={formatStringToCpf(field.value)}
+                            defaultValue={formatStringToCpf(field.value)}
                           />
                           <FormMessage />
                         </FormItem>
