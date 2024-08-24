@@ -3,6 +3,7 @@ import Dcet from "../../assets/images/sponsorships/DCET.png";
 import TecnoSystem from "../../assets/images/sponsorships/tecnoSystem.png";
 import Uneb from "../../assets/images/sponsorships/uneb.png";
 import ArenaGames from "../../assets/images/sponsorships/arenaGames.png";
+import Prefeitura from "../../assets/images/sponsorships/prefeitura.png";
 
 interface Sponsorship {
   title?: string;
@@ -44,6 +45,12 @@ const supports: Sponsorship[] = [
     subtitle: "",
     photo: ArenaGames,
     alt: "logo da arena games Bahia",
+  },
+  {
+    title: "",
+    subtitle: "",
+    photo: Prefeitura,
+    alt: "logo da prefeitura de Alagoinhas",
   },
 ];
 

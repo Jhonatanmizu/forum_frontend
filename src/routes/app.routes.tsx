@@ -1,5 +1,4 @@
-import Home from "@/pages/Home";
-import Presence from "@/pages/Presence";
+import { Home, Presence, Timeline } from "../pages";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
 const router = createBrowserRouter([
@@ -9,6 +8,10 @@ const router = createBrowserRouter([
   },
   {
     path: "/presence",
+    element: <Timeline />,
+  },
+  {
+    path: "/admin/presence",
     element: <Presence />,
   },
 ]);
