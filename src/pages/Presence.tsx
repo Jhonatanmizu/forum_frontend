@@ -101,8 +101,6 @@ const Presence = () => {
     }
   };
 
-  // 74575663093
-
   const handleResetSteps = () => {
     firstStepForm.reset();
     secondStepForm.reset();
