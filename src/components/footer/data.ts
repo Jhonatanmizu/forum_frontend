@@ -4,6 +4,7 @@ import TecnoSystem from "../../assets/images/sponsorships/tecnoSystem.png";
 import Uneb from "../../assets/images/sponsorships/uneb.png";
 import ArenaGames from "../../assets/images/sponsorships/arenaGames.png";
 import Prefeitura from "../../assets/images/sponsorships/prefeitura.png";
+import ProLimp from "../../assets/images/sponsorships/prolimp.png";
 
 interface Sponsorship {
   title?: string;
@@ -51,6 +52,12 @@ const supports: Sponsorship[] = [
     subtitle: "",
     photo: Prefeitura,
     alt: "logo da prefeitura de Alagoinhas",
+  },
+  {
+    title: "Tel e WhatsApp",
+    subtitle: "71 3645-5104",
+    photo: ProLimp,
+    alt: "logo da prolimp",
   },
 ];
 
